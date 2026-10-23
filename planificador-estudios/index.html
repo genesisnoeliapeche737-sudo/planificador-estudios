@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f8f6ff">
+  <meta name="description" content="Organizá carreras, cursos, inscripciones y tareas de estudio en un solo lugar.">
+  <title>Mi Ruta Académica | Planificador de estudios</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <div class="page-shell">
+    <header class="topbar">
+      <a class="brand" href="#inicio" aria-label="Mi Ruta Académica, ir al inicio">
+        <span class="brand-icon" aria-hidden="true">✦</span>
+        <span>Mi Ruta <strong>Académica</strong></span>
+      </a>
+      <span class="today" id="todayLabel"></span>
+    </header>
+
+    <main id="inicio">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <div class="eyebrow">TU ESPACIO PARA ORGANIZARTE <span aria-hidden="true">✺</span></div>
+          <h1 id="hero-title">Tu futuro empieza <em>con un plan.</em></h1>
+          <p>Guardá las carreras y cursos que te interesan, anotá fechas importantes y avanzá paso a paso con tus tareas.</p>
+          <a class="button button-primary" href="#mis-estudios">Empezar a planificar <span aria-hidden="true">↗</span></a>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
+          <div class="art-card art-card-main"><span class="art-symbol">📚</span><span>Mis objetivos</span><strong>Un paso a la vez</strong><span class="art-checks">✓ ✓ ✓</span></div>
+          <span class="star star-one">✦</span><span class="star star-two">✳</span>
+          <div class="art-bubble">¡Vos podés! ✨</div>
+        </div>
+      </section>
+
+      <section class="summary" aria-label="Resumen de tu progreso">
+        <div class="summary-card"><span class="summary-label">Carreras y cursos</span><strong id="studyCount">0</strong><span class="summary-help">en tu lista</span></div>
+        <div class="summary-card"><span class="summary-label">Tareas pendientes</span><strong id="pendingCount">0</strong><span class="summary-help">por hacer</span></div>
+        <div class="summary-card"><span class="summary-label">Tareas terminadas</span><strong id="completedCount">0</strong><span class="summary-help">¡seguí así!</span></div>
+        <div class="summary-card summary-progress"><span class="summary-label">Tu progreso</span><strong id="progressCount">0%</strong><div class="progress-track" role="progressbar" aria-label="Porcentaje de tareas completadas" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progressBar"><span id="progressFill"></span></div></div>
+      </section>
+
+      <section class="content-section" id="mis-estudios" aria-labelledby="studies-title">
+        <div class="section-heading">
+          <div><span class="section-kicker">01 / EXPLORÁ TU CAMINO</span><h2 id="studies-title">Mis estudios <span aria-hidden="true">🎓</span></h2><p>Agregá carreras, cursos o talleres que quieras estudiar.</p></div>
+          <button class="button button-primary" id="addStudyButton" type="button">+ Agregar estudio</button>
+        </div>
+        <div class="studies-grid" id="studiesList" aria-live="polite"></div>
+      </section>
+
+      <section class="content-section tasks-section" id="mis-tareas" aria-labelledby="tasks-title">
+        <div class="section-heading">
+          <div><span class="section-kicker">02 / ORGANIZÁ TU DÍA</span><h2 id="tasks-title">Mis tareas <span aria-hidden="true">📝</span></h2><p>Registrá lo que tenés que hacer y marcá tus avances.</p></div>
+          <button class="button button-primary" id="addTaskButton" type="button">+ Nueva tarea</button>
+        </div>
+        <div class="task-toolbar">
+          <label class="search-field"><span aria-hidden="true">⌕</span><input id="taskSearch" type="search" placeholder="Buscar una tarea..." aria-label="Buscar tareas"></label>
+          <label class="filter-field"><span class="sr-only">Filtrar tareas</span><select id="taskFilter"><option value="all">Todas las tareas</option><option value="pending">Pendientes</option><option value="completed">Completadas</option><option value="high">Prioridad alta</option></select></label>
+        </div>
+        <div class="tasks-list" id="tasksList" aria-live="polite"></div>
+      </section>
+
+      <section class="tip" aria-label="Consejo"><span aria-hidden="true">💡</span><p><strong>Consejo:</strong> Empezá anotando un curso que te interese y su fecha de inscripción. Después agregá pequeñas tareas para prepararte.</p></section>
+    </main>
+
+    <footer>Hecho con HTML, CSS y JavaScript · Proyecto de Desarrollo de Aplicaciones</footer>
+  </div>
+
+  <dialog id="studyDialog" aria-labelledby="studyDialogTitle">
+    <form id="studyForm" class="editor-form">
+      <div class="dialog-heading"><div><span class="section-kicker">PLANIFICADOR</span><h2 id="studyDialogTitle">Agregar estudio</h2></div><button type="button" class="icon-button" data-close="studyDialog" aria-label="Cerrar">✕</button></div>
+      <input type="hidden" name="id">
+      <label>Nombre de la carrera o curso <span class="required">*</span><input name="name" maxlength="80" placeholder="Ej.: Diseño gráfico" required></label>
+      <label>Institución<input name="institution" maxlength="90" placeholder="Ej.: Universidad o instituto"></label>
+      <div class="form-row">
+        <label>Tipo<select name="type"><option>Carrera</option><option>Curso</option><option>Taller</option></select></label>
+        <label>Modalidad<select name="modality"><option>Presencial</option><option>Virtual</option><option>Mixta</option></select></label>
+      </div>
+      <label>Fecha límite de inscripción (opcional)<input name="deadline" type="date"></label>
+      <label>Estado<select name="status"><option>Por investigar</option><option>Inscripción pendiente</option><option>Inscripto/a</option></select></label>
+      <div class="dialog-actions"><button type="button" class="button button-outline" data-close="studyDialog">Cancelar</button><button type="submit" class="button button-primary">Guardar estudio</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="taskDialog" aria-labelledby="taskDialogTitle">
+    <form id="taskForm" class="editor-form">
+      <div class="dialog-heading"><div><span class="section-kicker">ORGANIZADOR</span><h2 id="taskDialogTitle">Nueva tarea</h2></div><button type="button" class="icon-button" data-close="taskDialog" aria-label="Cerrar">✕</button></div>
+      <input type="hidden" name="id">
+      <label>¿Qué tenés que hacer? <span class="required">*</span><input name="title" maxlength="110" placeholder="Ej.: Revisar requisitos de inscripción" required></label>
+      <label>Relacionado con<select name="studyId" id="taskStudySelect"><option value="">General / sin estudio asignado</option></select></label>
+      <div class="form-row"><label>Fecha límite (opcional)<input type="date" name="deadline"></label><label>Prioridad<select name="priority"><option value="medium">Media</option><option value="high">Alta</option><option value="low">Baja</option></select></label></div>
+      <label class="checkbox-label"><input type="checkbox" name="completed"> Ya está completada</label>
+      <div class="dialog-actions"><button type="button" class="button button-outline" data-close="taskDialog">Cancelar</button><button type="submit" class="button button-primary">Guardar tarea</button></div>
+    </form>
+  </dialog>
+</body>
+</html>
